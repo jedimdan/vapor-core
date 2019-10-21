@@ -21,8 +21,11 @@ class VaporQueue extends SqsQueue
 
         if (! is_null($response['Messages']) && count($response['Messages']) > 0) {
             return new VaporJob(
-                $this->container, $this->sqs, $response['Messages'][0],
-                $this->connectionName, $queue
+                $this->container,
+                $this->sqs,
+                $response['Messages'][0],
+                $this->connectionName,
+                $queue
             );
         }
     }
@@ -37,6 +40,7 @@ class VaporQueue extends SqsQueue
      */
     protected function createPayloadArray($job, $queue, $data = '')
     {
+        info('payload created', compact('job', 'queue', 'data'));
         return array_merge(parent::createPayloadArray($job, $queue, $data), [
             'attempts' => 0,
         ]);
